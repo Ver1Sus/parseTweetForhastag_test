@@ -37,7 +37,6 @@ def findAllHashtags():
 
 
 def getTweetsFromFile(fileName):
-    #TODO: вариант, где в файле не построчно, а массив строк
     result = []
     with open(fileName, 'r') as f:
         line = " "
@@ -52,7 +51,9 @@ def findWordsForHastag(allMessages, hashtag):
     allWords = []
     for message in allMessages:
         if '#'+hashtag in message.lower():
-            allWords += message.lower().replace('#'+hashtag, '').replace(',','').split()
+            message = re.sub(r'\w*[#0-9]\w*', '', message)
+            message = re.sub(r'\w*[\!?@$№%&]\w+', '', message)
+            allWords += re.findall(r'[А-яA-z]\w+', message.lower())
     print(allWords)
     return allWords
 
